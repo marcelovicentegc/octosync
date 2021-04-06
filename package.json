@@ -1,0 +1,23 @@
+{
+  "name": "octosync",
+  "version": "0.0.1",
+  "main": "index.js",
+  "author": "Marcelo Cardoso <marcelovicentegc@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "rimraf build && tsc"
+  },
+  "dependencies": {
+    "@octokit/rest": "^18.5.2",
+    "@slack/events-api": "^3.0.0",
+    "@slack/web-api": "^6.1.0",
+    "dotenv": "^8.2.0",
+    "jira-connector": "^3.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.37",
+    "rimraf": "^3.0.2",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.3"
+  }
+}
