@@ -1,4 +1,4 @@
-import { github } from "../../clients";
+import { github } from "./singleton";
 import { BREAK_REGEX, DATE_REGEX, OK_STATUS } from "./consts";
 import { formatDateTime } from "./utils";
 

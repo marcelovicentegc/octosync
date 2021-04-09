@@ -1,4 +1,4 @@
-import { jira } from "../../clients";
+import { jira } from "./singleton";
 
 export class Jira {
   private host: string;

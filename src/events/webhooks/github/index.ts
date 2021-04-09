@@ -1,4 +1,4 @@
-import { jira } from "../../../controllers";
+import { jira } from "../../../clients";
 import { webhook } from "../router";
 import { IssuePayload } from "./types";
 

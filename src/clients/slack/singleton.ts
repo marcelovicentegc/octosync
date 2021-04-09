@@ -1,5 +1,5 @@
 import { WebClient } from "@slack/web-api";
-import { useEnv } from "../hooks/useEnv";
+import { useEnv } from "../../hooks/useEnv";
 
 let slackInstance: WebClient | null = null;
 

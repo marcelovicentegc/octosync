@@ -1,5 +1,5 @@
 import JiraClient from "jira-connector";
-import { useEnv } from "../hooks/useEnv";
+import { useEnv } from "../../hooks/useEnv";
 
 let jiraInstance: JiraClient | null = null;
 
