@@ -13,3 +13,7 @@
 - Start octosync locally with `yarn start`.
 - On another terminal window, run `yarn start:expose` to link octosync with an actual endpoint to test the webhooks.
 - Edit files and have fun.
+
+## Useful resources
+
+- [Manage Jira webhooks](https://support.atlassian.com/jira-cloud-administration/docs/manage-webhooks/)

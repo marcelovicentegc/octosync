@@ -1,5 +1,5 @@
 export interface IssuePayload {
-  action: "opened" | "assigned" | string;
+  action: "opened" | "assigned" | "labeled" | string;
   issue: {
     url: string;
     repository_url: string;
@@ -25,7 +25,7 @@ export interface IssuePayload {
       avatar_url: string;
       site_admin: boolean;
     };
-    labels: string[];
+    labels: IssueLabel[];
     state: "open" | string;
     locked: boolean;
     // TODO
@@ -86,4 +86,14 @@ export interface IssuePayload {
     type: "User" | string;
     site_admin: boolean;
   };
+}
+
+export interface IssueLabel {
+  id: number;
+  node_id: string;
+  url: string;
+  name: string;
+  color: string;
+  default: boolean;
+  description: string;
 }

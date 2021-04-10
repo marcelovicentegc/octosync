@@ -1,14 +1,21 @@
 import { useEnv } from "../hooks";
+import { Github } from "./github";
 import { Jira } from "./jira";
 
 function setup() {
-  const { JIRA_HOST, JIRA_PROJECT, JIRA_PROJECT_ID } = useEnv();
+  const {
+    JIRA_HOST,
+    JIRA_PROJECT,
+    JIRA_PROJECT_ID,
+    GITHUB_ORGANIZATION,
+  } = useEnv();
 
   const jira = new Jira(JIRA_HOST, JIRA_PROJECT, JIRA_PROJECT_ID);
+  const github = new Github(GITHUB_ORGANIZATION);
 
-  return { jira };
+  return { jira, github };
 }
 
-const { jira } = setup();
+const { jira, github } = setup();
 
-export { jira };
+export { jira, github };
