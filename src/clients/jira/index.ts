@@ -8,6 +8,7 @@ export class Jira {
 
   private async getUserAccountId(email: string) {
     try {
+      let accountId: string | null = null;
       // See https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-users/#api-rest-api-3-user-get
       await jira.sendRequest<{ user: [{ accountId: string }] }>(
         {
@@ -18,13 +19,16 @@ export class Jira {
         },
         (err, data) => {
           if (err) {
-            throw new Error(err.name);
+            throw err;
           }
 
-          if (data?.user && data.user.length > 0) return data.user[0].accountId;
+          if (data?.user && data.user.length > 0) {
+            accountId = data.user[0].accountId;
+          }
         }
       );
-      return null;
+
+      return accountId;
     } catch (err) {
       throw err;
     }
