@@ -6,9 +6,10 @@ webhook.post("/github", async (req, res) => {
   const reqBody = req.body as IssuePayload;
 
   try {
-    const action = reqBody.action;
-    const title = reqBody.issue.title;
-    const body = reqBody.issue.body;
+    const {
+      action,
+      issue: { title, body },
+    } = reqBody;
     const triggererEmail = reqBody.issue.user.login;
 
     if (action === "opened") {

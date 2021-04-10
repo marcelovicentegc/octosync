@@ -1,3 +1,4 @@
+import { CreateIssue } from "jira.js/out/version2/parameters";
 import { jira } from "./singleton";
 
 export class Jira {
@@ -7,10 +8,22 @@ export class Jira {
 
   private async getUserAccountId(email: string) {
     try {
-      let user = await jira.user.search({
-        query: email,
-      });
-      if (user.length > 0) return user[0].accountId;
+      // See https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-users/#api-rest-api-3-user-get
+      await jira.sendRequest<{ user: [{ accountId: string }] }>(
+        {
+          url: "search",
+          params: {
+            query: email,
+          },
+        },
+        (err, data) => {
+          if (err) {
+            throw new Error(err.name);
+          }
+
+          if (data?.user && data.user.length > 0) return data.user[0].accountId;
+        }
+      );
       return null;
     } catch (err) {
       throw err;
@@ -31,7 +44,7 @@ export class Jira {
     issueTypeId: string
   ) {
     try {
-      const ticket = {
+      const ticket: CreateIssue = {
         fields: {
           project: { id: this.projectId },
           summary: title,
@@ -47,7 +60,7 @@ export class Jira {
         Object.assign(ticket.fields, { assignee: { id: accountId } });
       }
 
-      return await jira.issue.createIssue(ticket);
+      return await jira.issues.createIssue(ticket);
     } catch (err) {
       throw new Error(err.toString());
     }
@@ -55,18 +68,10 @@ export class Jira {
 
   public async closeIssue(issueNumber: number) {
     try {
-      const transitions = await jira.issue.getTransitions({
-        issueKey: `${this.project}-${issueNumber}`,
-      });
-
-      const transitionId = transitions.transitions.find(
-        (transition: any) => transition.name === "Done"
-      ).id;
-
-      await jira.issue.transitionIssue({
-        issueKey: `${this.project}-${issueNumber}`,
+      await jira.issues.doTransition({
+        issueIdOrKey: `${this.project}-${issueNumber}`,
         transition: {
-          id: transitionId,
+          name: "Done",
         },
       });
     } catch (err) {
