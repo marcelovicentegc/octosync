@@ -1,7 +1,7 @@
 <p align="center">
   <img alt="octosync logo" src="./assets/octosync.png" height="300" />
   <h3 align="center">octosync</h3>
-  <p align="center">Open source solution to keep Github and Jira issues in sync. An alternative to Exalate and Unito.</p>
+  <p align="center">An open-source solution to keep Github and Jira issues in sync. An alternative to Exalate and Unito.</p>
 </p>
 
 ## Installation
