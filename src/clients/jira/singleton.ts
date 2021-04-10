@@ -1,6 +1,5 @@
-import { Version2Client as JiraClient } from "jira.js";
-
 import { useEnv } from "../../hooks/useEnv";
+import { JiraClient } from "./client";
 
 let jiraInstance: JiraClient | null = null;
 
@@ -14,17 +13,15 @@ export const jira = (() => {
   jiraInstance = new JiraClient({
     host: JIRA_HOST,
     authentication: {
-      basic: {
-        email: JIRA_ISSUER_EMAIL,
-        /**
-         * Manage API tokens for your Atlassian account
-         * You can use an API token to authenticate a script or other process with an Atlassian cloud product.
-         * You generate the token from your Atlassian account, then copy and paste it to the script.
-         *
-         * https://support.atlassian.com/atlassian-account/docs/manage-api-tokens-for-your-atlassian-account/
-         */
-        apiToken: JIRA_API_TOKEN,
-      },
+      email: JIRA_ISSUER_EMAIL,
+      /**
+       * Manage API tokens for your Atlassian account
+       * You can use an API token to authenticate a script or other process with an Atlassian cloud product.
+       * You generate the token from your Atlassian account, then copy and paste it to the script.
+       *
+       * https://support.atlassian.com/atlassian-account/docs/manage-api-tokens-for-your-atlassian-account/
+       */
+      apiKey: JIRA_API_TOKEN,
     },
   });
 

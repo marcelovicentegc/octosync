@@ -1,4 +1,4 @@
-import { CreateIssue } from "jira.js/out/version2/parameters";
+import { CreateIssue, User } from "./types";
 import { jira } from "./singleton";
 
 export class Jira {
@@ -8,29 +8,14 @@ export class Jira {
 
   private async getUserAccountId(email: string) {
     try {
-      let accountId: string | null = null;
-      // See https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-users/#api-rest-api-3-user-get
-      await jira.sendRequest<{ user: [{ accountId: string }] }>(
-        {
-          url: "search",
-          params: {
-            query: email,
-          },
-        },
-        (err, data) => {
-          if (err) {
-            throw err;
-          }
+      const users: User[] = await jira.userSearch.findUsers({
+        query: email,
+      });
 
-          if (data?.user && data.user.length > 0) {
-            accountId = data.user[0].accountId;
-          }
-        }
-      );
-
-      return accountId;
+      return users[0].accountId;
     } catch (err) {
-      throw err;
+      console.error(err);
+      return null;
     }
   }
 
@@ -48,25 +33,27 @@ export class Jira {
     issueTypeId: string
   ) {
     try {
-      const ticket: CreateIssue = {
+      let ticket: CreateIssue = {
         fields: {
           project: { id: this.projectId },
           summary: title,
           description: description,
           issuetype: { id: issueTypeId },
           labels,
+          assignee: {},
         },
       };
 
       const accountId = await this.getUserAccountId(email);
 
       if (accountId) {
-        Object.assign(ticket.fields, { assignee: { id: accountId } });
+        ticket.fields.assignee!.id = accountId;
       }
 
       return await jira.issues.createIssue(ticket);
     } catch (err) {
-      throw new Error(err.toString());
+      console.log({ err });
+      throw err;
     }
   }
 
@@ -79,7 +66,7 @@ export class Jira {
         },
       });
     } catch (err) {
-      throw new Error(err.toString());
+      throw err;
     }
   }
 
@@ -87,7 +74,7 @@ export class Jira {
     try {
       return `https://${this.host}/jira/software/projects/${this.project}/issues/${issueKey}`;
     } catch (err) {
-      throw new Error(err.toString());
+      throw err;
     }
   }
 }

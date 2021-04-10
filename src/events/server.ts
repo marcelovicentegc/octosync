@@ -4,7 +4,13 @@ import { github } from "./webhooks";
 import { useEnv } from "../hooks";
 
 export function startEventsServer() {
-  const { PORT } = useEnv();
+  const { PORT, NODE_ENV, GITHUB_REPOSITORY, GITHUB_ORGANIZATION } = useEnv();
+
+  if (NODE_ENV === "development") {
+    console.log(
+      `Update your Github webhook endpoint @ https://github.com/${GITHUB_ORGANIZATION}/${GITHUB_REPOSITORY}/settings/hooks`
+    );
+  }
 
   const server = express();
 
