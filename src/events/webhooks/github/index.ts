@@ -13,7 +13,13 @@ webhook.post("/github", async (req, res) => {
     const triggererEmail = reqBody.issue.user.login;
 
     if (action === "opened") {
-      await jira.createJiraIssue(title, triggererEmail, body, [], "");
+      await jira.createJiraIssue(
+        title,
+        triggererEmail,
+        body,
+        [],
+        jira.defaultIssueTypes.task
+      );
     }
   } catch (error) {
     console.error(error);

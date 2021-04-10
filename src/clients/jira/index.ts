@@ -1,10 +1,18 @@
 import { CreateIssue, User } from "./types";
 import { jira } from "./singleton";
+import { handleAxiosError } from "../../utils/errors";
 
 export class Jira {
   private host: string;
   private project: string;
   private projectId: string;
+  public defaultIssueTypes = {
+    epic: "10000",
+    story: "10001",
+    task: "10002",
+    subTask: "10003",
+    bug: "10004",
+  };
 
   private async getUserAccountId(email: string) {
     try {
@@ -37,10 +45,12 @@ export class Jira {
         fields: {
           project: { id: this.projectId },
           summary: title,
-          description: description,
+          description,
           issuetype: { id: issueTypeId },
           labels,
-          assignee: {},
+          assignee: {
+            id: undefined,
+          },
         },
       };
 
@@ -51,9 +61,9 @@ export class Jira {
       }
 
       return await jira.issues.createIssue(ticket);
-    } catch (err) {
-      console.log({ err });
-      throw err;
+    } catch (error) {
+      handleAxiosError(error);
+      throw error;
     }
   }
 
