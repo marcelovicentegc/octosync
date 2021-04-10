@@ -2,6 +2,7 @@ import { github } from "../../../clients";
 import { useEnv } from "../../../hooks";
 import { CONTROL_LABELS } from "../consts";
 import { webhook } from "../router";
+import { removeDuplicates } from "../utils";
 import { IssuePayload } from "./types";
 
 webhook.post("/jira", async (req, res) => {
@@ -13,19 +14,21 @@ webhook.post("/jira", async (req, res) => {
     const {
       issue_event_type_name,
       issue: {
-        fields: { summary, labels },
+        fields: { summary, labels: jiraLabels },
         key,
       },
     } = reqBody;
 
     // This means that this issue has already been created,
     // and this hook must finish executing immediately.
-    if (labels.includes(CONTROL_LABELS.FROM_GITHUB)) {
+    if (jiraLabels.includes(CONTROL_LABELS.FROM_GITHUB)) {
       return;
     }
 
     if (issue_event_type_name === "issue_created") {
-      labels.push(CONTROL_LABELS.FROM_JIRA);
+      jiraLabels.push(CONTROL_LABELS.FROM_JIRA);
+
+      const labels = removeDuplicates(jiraLabels);
 
       return await github.createIssue(GITHUB_REPOSITORY, key, summary, labels);
     }

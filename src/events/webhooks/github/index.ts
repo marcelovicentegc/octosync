@@ -1,6 +1,7 @@
 import { jira } from "../../../clients";
 import { CONTROL_LABELS } from "../consts";
 import { webhook } from "../router";
+import { removeDuplicates } from "../utils";
 import { IssuePayload } from "./types";
 
 webhook.post("/github", async (req, res) => {
@@ -19,9 +20,11 @@ webhook.post("/github", async (req, res) => {
       return;
     }
 
-    const labels = ghLabels.map((label) => label.name);
+    let labels = ghLabels.map((label) => label.name);
 
     labels.push(CONTROL_LABELS.FROM_GITHUB);
+
+    labels = removeDuplicates(labels);
 
     if (action === "opened") {
       await jira.createJiraIssue(
