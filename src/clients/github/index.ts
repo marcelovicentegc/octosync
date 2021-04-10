@@ -130,17 +130,22 @@ export class Github {
     });
   }
 
-  public async updateIssue(
-    issueNumber: number,
-    repository: string,
-    body: string
-  ) {
+  public async updateIssue(params: {
+    issueNumber: number;
+    repository: string;
+    state?: "open" | "closed";
+    body?: string;
+    title?: string;
+  }) {
+    const { repository, issueNumber, body, title, state } = params;
+
     return await github.issues.update({
       owner: this.organization,
       repo: repository,
       issue_number: issueNumber,
-      body: body,
-      state: "closed",
+      body,
+      title,
+      state,
     });
   }
 }

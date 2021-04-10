@@ -1,4 +1,4 @@
-import { jira } from "../../../clients";
+import { jira, github } from "../../../clients";
 import { CONTROL_LABELS } from "../consts";
 import { webhook } from "../router";
 import { removeDuplicates } from "../utils";
@@ -10,7 +10,8 @@ webhook.post("/github", async (req, res) => {
   try {
     const {
       action,
-      issue: { title, body, labels: ghLabels },
+      issue: { title, body, number: ghIssueNumber, labels: ghLabels },
+      repository: { name: repositoryName },
     } = reqBody;
     const triggererEmail = reqBody.issue.user.login;
 
@@ -26,17 +27,29 @@ webhook.post("/github", async (req, res) => {
 
     labels = removeDuplicates(labels);
 
-    if (action === "opened") {
-      await jira.createJiraIssue(
-        title,
-        triggererEmail,
-        body,
-        labels,
-        jira.defaultIssueTypes.task
-      );
+    switch (action) {
+      case "opened":
+        const issue = await jira.createJiraIssue(
+          title,
+          triggererEmail,
+          body,
+          labels,
+          jira.defaultIssueTypes.task
+        );
+
+        const updatedTitle = `${issue.key} - ${title}`;
+
+        await github.updateIssue({
+          issueNumber: ghIssueNumber,
+          repository: repositoryName,
+          title: updatedTitle,
+        });
+        break;
+      case "closed":
+      default:
+        break;
     }
   } catch (error) {
-    console.error(error);
     res.status(400).end("Bad Request");
     return res;
   }
