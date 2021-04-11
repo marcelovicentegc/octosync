@@ -68,6 +68,32 @@ export class Jira {
     }
   }
 
+  public async updateIssueWithGithubData(params: {
+    issueKey: string;
+    repository: string;
+    issueNumber: string;
+  }) {
+    const { issueKey, repository, issueNumber } = params;
+
+    const {
+      JIRA_CUSTOM_GITHUB_ISSUE_NUMBER_FIELD,
+      JIRA_CUSTOM_GITHUB_REPOSITORY_FIELD,
+    } = useEnv();
+
+    try {
+      await jira.issues.editIssue({
+        issueIdOrKey: issueKey,
+        fields: {
+          [JIRA_CUSTOM_GITHUB_ISSUE_NUMBER_FIELD]: issueNumber,
+          [JIRA_CUSTOM_GITHUB_REPOSITORY_FIELD]: repository,
+        },
+      });
+    } catch (error) {
+      handleAxiosError(error);
+      throw error;
+    }
+  }
+
   public async closeIssue(issueKey: string) {
     const { JIRA_DONE_TRANSITION_ID } = useEnv();
 

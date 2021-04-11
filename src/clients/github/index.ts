@@ -115,12 +115,14 @@ export class Github {
     });
   }
 
-  public async createIssue(
-    repository: string,
-    title: string,
-    body: string,
-    labels: string[]
-  ) {
+  public async createIssue(params: {
+    repository: string;
+    title: string;
+    body: string;
+    labels: string[];
+  }) {
+    const { repository, title, body, labels } = params;
+
     return await github.issues.create({
       owner: this.organization,
       repo: repository,

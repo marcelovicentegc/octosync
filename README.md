@@ -6,6 +6,15 @@
   <p align="center">An open-source solution to keep Github and Jira issues in sync. An alternative to Exalate and Unito.</p>
 </p>
 
+---
+
+| Features                                                          | Status |
+| ----------------------------------------------------------------- | ------ |
+| Sync issue creation                                               | ✔️     |
+| Sync issue closing                                                | ✔️     |
+| Sync events such as comments, PRs linked, attachments added, etc. | 🚧     |
+| Sync issue edition                                                | 🚧     |
+
 ## Installation
 
 > TO DO
