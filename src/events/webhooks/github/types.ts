@@ -1,5 +1,5 @@
 export interface IssuePayload {
-  action: "opened" | "assigned" | "labeled" | "closed" | "edited";
+  action: "opened" | "assigned" | "labeled" | "closed" | "edited" | "created";
   issue: {
     url: string;
     repository_url: string;

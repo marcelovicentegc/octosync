@@ -1,6 +1,7 @@
 import { CreateIssue, User } from "./types";
 import { jira } from "./singleton";
 import { handleAxiosError } from "../../utils/errors";
+import { useEnv } from "../../hooks";
 
 export class Jira {
   private host: string;
@@ -67,16 +68,18 @@ export class Jira {
     }
   }
 
-  public async closeIssue(issueNumber: number) {
+  public async closeIssue(issueKey: string) {
+    const { JIRA_DONE_TRANSITION_ID } = useEnv();
+
     try {
       await jira.issues.doTransition({
-        issueIdOrKey: `${this.project}-${issueNumber}`,
+        issueIdOrKey: issueKey,
         transition: {
-          name: "Done",
+          id: JIRA_DONE_TRANSITION_ID,
         },
       });
-    } catch (err) {
-      throw err;
+    } catch (error) {
+      handleAxiosError(error);
     }
   }
 

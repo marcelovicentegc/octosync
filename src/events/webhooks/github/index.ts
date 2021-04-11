@@ -2,7 +2,9 @@ import { jira, github } from "../../../clients";
 import { CONTROL_LABELS } from "../consts";
 import { webhook } from "../router";
 import { removeDuplicates } from "../utils";
+import { ISSUE_KEY_REGEX } from "./consts";
 import { IssuePayload } from "./types";
+import { reverse } from "./utils";
 
 webhook.post("/github", async (req, res) => {
   const reqBody = req.body as IssuePayload;
@@ -46,6 +48,14 @@ webhook.post("/github", async (req, res) => {
         });
         break;
       case "closed":
+        const match = reverse(title).match(ISSUE_KEY_REGEX);
+
+        if (!match) {
+          res.status(422).end("Unprocessable Entity");
+          return res;
+        }
+
+        await jira.closeIssue(reverse(match[0]));
       default:
         break;
     }
