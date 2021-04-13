@@ -2,11 +2,41 @@ import { User, CreatedIssue } from "../../../clients/jira/types";
 
 export interface IssuePayload {
   timestamp: number;
-  webhookEvent: "jira:issue_created" | "jira:issue_updated" | string;
+  webhookEvent:
+    | "jira:issue_created"
+    | "jira:issue_updated"
+    | "comment_created"
+    | string;
   issue_event_type_name: "issue_created" | "issue_generic" | string;
   user: User;
   issue: CreatedIssue & {
     fields: IssuePayloadField;
+  };
+  comment?: {
+    self: string;
+    id: string;
+    author: {
+      self: string;
+      accountId: string;
+      avatarUrls: any[];
+      displayName: string;
+      active: true;
+      timeZone: string;
+      accountType: string;
+    };
+    body: string;
+    updateAuthor: {
+      self: string;
+      accountId: string;
+      avatarUrls: any[];
+      displayName: string;
+      active: boolean;
+      timeZone: string;
+      accountType: string;
+    };
+    created: string;
+    updated: string;
+    jsdPublic: boolean;
   };
 }
 

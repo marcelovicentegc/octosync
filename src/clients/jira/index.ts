@@ -109,6 +109,16 @@ export class Jira {
     }
   }
 
+  public async getIssue(issueKey: string) {
+    try {
+      return await jira.issues.getIssue({
+        issueIdOrKey: issueKey,
+      });
+    } catch (error) {
+      handleAxiosError(error);
+    }
+  }
+
   public async buildIssueUrl(issueKey: string) {
     try {
       return `https://${this.host}/jira/software/projects/${this.project}/issues/${issueKey}`;

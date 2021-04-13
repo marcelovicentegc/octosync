@@ -383,7 +383,7 @@ export interface IssueBean {
   /** The versions of each field on the issue. */
   versionedRepresentations?: {};
   fieldsToInclude?: IncludedFields;
-  fields?: {};
+  fields?: any;
 }
 
 /**

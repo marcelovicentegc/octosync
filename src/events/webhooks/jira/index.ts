@@ -18,6 +18,7 @@ webhook.post("/jira", async (req, res) => {
   try {
     const {
       webhookEvent,
+      comment,
       issue: {
         fields: { summary, description, labels: jiraLabels, status },
         key,
@@ -26,7 +27,7 @@ webhook.post("/jira", async (req, res) => {
 
     // This means that this issue has already been created,
     // and this hook must finish executing immediately.
-    if (jiraLabels.includes(CONTROL_LABELS.FROM_GITHUB)) {
+    if (jiraLabels?.includes(CONTROL_LABELS.FROM_GITHUB)) {
       return;
     }
 
@@ -60,6 +61,19 @@ webhook.post("/jira", async (req, res) => {
             state: "closed",
           });
         }
+      case "comment_created":
+        const jiraIssue = await jira.getIssue(key);
+
+        if (!jiraIssue) {
+          res.status(404).end("Not Found");
+          return res;
+        }
+
+        await github.commentIssue({
+          issueNumber: jiraIssue.fields[JIRA_CUSTOM_GITHUB_ISSUE_NUMBER_FIELD],
+          repository: jiraIssue.fields[JIRA_CUSTOM_GITHUB_REPOSITORY_FIELD],
+          body: comment?.body ?? "",
+        });
       default:
         break;
     }
