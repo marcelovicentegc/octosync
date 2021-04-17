@@ -30,7 +30,7 @@ jobs:
     if: "! contains(toJSON(github.event.commits.*.message), '[skip-release]')"
     name: Release
     runs-on: ubuntu-latest
-    depends_on: build
+    needs: build
     steps:
       - name: Checkout
         uses: actions/checkout@v2
