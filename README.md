@@ -64,6 +64,17 @@ The above is also valid for how to get the ID of custom Jira fields, transition 
       </details>
 
 3.  Start the image: `docker run -d -p <port-of-your-choice>:8000 --env-file configuration.file marcelovicentegc/octosync`
+4.  Set the following webhook triggerers for Github on your project's webhooks settings:
+    - Issues
+    - Issue comments
+    - Labels
+5.  Set the following webhook triggerers for Jira on your system's webhooks settings:
+    - Issue
+      - created
+      - updated
+      - deleted
+    - Comment
+      - created
 
 ## Development
 
