@@ -4,7 +4,7 @@ WORKDIR /app
 ADD package.json yarn.lock /app/
 RUN rm -rf node_modules && yarn install --frozen-lockfile
 ADD . /app/
-RUN yarn tsc
+RUN yarn build
 
 FROM node:14
 WORKDIR /app
