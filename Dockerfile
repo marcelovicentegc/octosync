@@ -2,11 +2,11 @@ FROM node:14 AS build
 ENV NODE_ENV production
 WORKDIR /app
 ADD package.json yarn.lock /app/
-RUN rm -rf node_modules && yarn install
+RUN rm -rf node_modules && yarn install --frozen-lockfile
 ADD . /app/
 RUN yarn build
 
-FROM node:14
+FROM build
 WORKDIR /app
 ADD package.json yarn.lock /app/
 RUN rm -rf node_modules && yarn install --frozen-lockfile --prod
