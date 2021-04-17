@@ -6,7 +6,7 @@ RUN rm -rf node_modules && yarn install --frozen-lockfile --production=false
 ADD . /app/
 RUN yarn build
 
-FROM build
+FROM node:14
 WORKDIR /app
 ADD package.json yarn.lock /app/
 RUN rm -rf node_modules && yarn install --frozen-lockfile --prod
