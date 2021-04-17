@@ -26,7 +26,7 @@ export function useEnv() {
 
   return {
     NODE_ENV,
-    PORT,
+    PORT: NODE_ENV === "production" ? 8000 : PORT,
     GITHUB_TOKEN,
     GITHUB_ORGANIZATION,
     GITHUB_REPOSITORY,

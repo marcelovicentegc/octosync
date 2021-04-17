@@ -1,19 +1,20 @@
 import express from "express";
 import cors from "cors";
+import { lookup } from "dns";
+import { hostname } from "os";
 import { github, jira } from "./webhooks";
 import { useEnv } from "../hooks";
 
 export function startEventsServer() {
-  const {
-    PORT,
-    NODE_ENV,
-    GITHUB_REPOSITORY,
-    GITHUB_ORGANIZATION,
-    JIRA_HOST,
-  } = useEnv();
+  const { PORT, GITHUB_REPOSITORY, GITHUB_ORGANIZATION, JIRA_HOST } = useEnv();
 
-  if (NODE_ENV === "development") {
-    console.log(`
+  let addr = "";
+
+  lookup(hostname(), (_, address, __) => {
+    addr = address;
+  });
+
+  console.log(`
 
     ██████╗  ██████╗████████╗ ██████╗ ███████╗██╗   ██╗███╗   ██╗ ██████╗
     ██╔═══██╗██╔════╝╚══██╔══╝██╔═══██╗██╔════╝╚██╗ ██╔╝████╗  ██║██╔════╝
@@ -26,7 +27,6 @@ export function startEventsServer() {
 Make sure your Github webhook endpoint is configured @ https://github.com/${GITHUB_ORGANIZATION}/${GITHUB_REPOSITORY}/settings/hooks
 Make sure your Jira webhook endpoint is configured @ ${JIRA_HOST}/plugins/servlet/webhooks
 `);
-  }
 
   const server = express();
 
@@ -50,6 +50,6 @@ Make sure your Jira webhook endpoint is configured @ ${JIRA_HOST}/plugins/servle
   });
 
   server.listen(PORT, () => {
-    console.log(`Listening on ${PORT}`);
+    console.log(`Listening on ${addr}:${PORT}`);
   });
 }

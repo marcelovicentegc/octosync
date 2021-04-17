@@ -17,7 +17,30 @@
 
 ## Installation
 
-> TO DO
+The directions below go as far as getting Octosync up and running on a host machine. Configuring a host machine and setting up any kind of proxy to make Octosync available to the world is beyond the scope of this document.
+
+1. Pull image from registry: `docker pull marcelovicentegc/octosync`
+2. Create a file with your configuration, based on the following format (same as `.env.example`, except it doens't has the PORT option):
+
+   _configuration.file_
+
+   ```bash
+   NODE_ENV=production
+   GITHUB_TOKEN=
+   GITHUB_ORGANIZATION=
+   GITHUB_REPOSITORY=
+   JIRA_HOST=
+   JIRA_ISSUER_EMAIL=
+   JIRA_PROJECT=
+   JIRA_PROJECT_ID=
+   JIRA_API_TOKEN=
+   JIRA_DONE_TRANSITION_ID=
+   JIRA_DONE_STATUS_NAME=
+   JIRA_CUSTOM_GITHUB_REPOSITORY_FIELD=
+   JIRA_CUSTOM_GITHUB_ISSUE_NUMBER_FIELD=
+   ```
+
+3. Start the image: `docker run -d -p <port-of-your-choice>:8000 --env-file configuration.file marcelovicentegc/octosync`
 
 ## Development
 
