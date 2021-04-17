@@ -1,5 +1,5 @@
 import { jira, github } from "../../../clients";
-import { CONTROL_LABELS } from "../consts";
+import { CONTROL_COMMENT_BODY, CONTROL_LABELS } from "../consts";
 import { webhook } from "../router";
 import { removeDuplicates } from "../utils";
 import { ISSUE_KEY_REGEX } from "./consts";
@@ -13,14 +13,20 @@ webhook.post("/github", async (req, res) => {
     const {
       action,
       issue: { title, body, number: ghIssueNumber, labels: ghLabels },
+      sender,
+      comment,
       repository: { name: repositoryName },
     } = reqBody;
     const triggererEmail = reqBody.issue.user.login;
 
     // This means that this issue has already been created,
     // and this hook must finish executing immediately.
-    if (ghLabels.some((label) => label.name === CONTROL_LABELS.FROM_JIRA)) {
-      return;
+    if (
+      action === "opened" &&
+      ghLabels.some((label) => label.name === CONTROL_LABELS.FROM_JIRA)
+    ) {
+      res.status(409).end("Conflict");
+      return res;
     }
 
     let labels = ghLabels.map((label) => label.name);
@@ -28,6 +34,8 @@ webhook.post("/github", async (req, res) => {
     labels.push(CONTROL_LABELS.FROM_GITHUB);
 
     labels = removeDuplicates(labels);
+
+    let match: RegExpMatchArray | null = null;
 
     switch (action) {
       case "opened":
@@ -48,7 +56,7 @@ webhook.post("/github", async (req, res) => {
         });
         break;
       case "closed":
-        const match = reverse(title).match(ISSUE_KEY_REGEX);
+        match = reverse(title).match(ISSUE_KEY_REGEX);
 
         if (!match) {
           res.status(422).end("Unprocessable Entity");
@@ -56,6 +64,36 @@ webhook.post("/github", async (req, res) => {
         }
 
         await jira.closeIssue(reverse(match[0]));
+      case "created":
+        if (
+          comment.body.includes(CONTROL_COMMENT_BODY.FROM_GITHUB) ||
+          comment.body.includes(CONTROL_COMMENT_BODY.FROM_JIRA)
+        ) {
+          res.status(409).end("Conflict");
+          return res;
+        }
+
+        match = reverse(title).match(ISSUE_KEY_REGEX);
+
+        if (!match) {
+          res.status(422).end("Unprocessable Entity");
+          return res;
+        }
+
+        const customBody = `${comment.body}\n\n${CONTROL_COMMENT_BODY.FROM_GITHUB} by ${sender.login}`;
+
+        await github.updateIssueComment({
+          commentId: comment.id,
+          owner: sender.login,
+          body: customBody,
+          repository: repositoryName,
+        });
+
+        await jira.commentIssue({
+          issueKey: reverse(match[0]),
+          body: customBody,
+        });
+        break;
       default:
         break;
     }

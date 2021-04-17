@@ -46,6 +46,19 @@ export interface IssuePayload {
     closed_at: null;
     author_association: "COLLABORATOR" | string;
   };
+  comment: {
+    url: string;
+    html_url: string;
+    issue_url: string;
+    id: number;
+    node_id: string;
+    // TODO
+    user: [];
+    created_at: string;
+    updated_at: string;
+    author_association: "OWNER" | string;
+    body: string;
+  };
   repository: {
     name: string;
     /**

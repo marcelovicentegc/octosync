@@ -94,6 +94,20 @@ export class Jira {
     }
   }
 
+  public async commentIssue(params: { issueKey: string; body: string }) {
+    const { issueKey, body } = params;
+
+    try {
+      await jira.issues.addComment({
+        issueIdOrKey: issueKey,
+        body,
+      });
+    } catch (error) {
+      handleAxiosError(error);
+      throw error;
+    }
+  }
+
   public async closeIssue(issueKey: string) {
     const { JIRA_DONE_TRANSITION_ID } = useEnv();
 

@@ -3,7 +3,9 @@ import {
   TimeTrackingDetails,
   Project,
   Notification,
+  IssueCommentListRequestBean,
   User,
+  Comment,
 } from "./models";
 
 export interface Notify extends Notification {
@@ -351,4 +353,57 @@ export interface FindUsers {
   maxResults?: number;
   /** A query string used to search properties. Property keys are specified by path, so property keys containing dot (.) or equals (=) characters cannot be used. The query string cannot be specified using a JSON object. Example: To search for the value of `nested` from `{"something":{"nested":1,"other":2}}` use `thepropertykey.something.nested=1`. Required, unless `accountId` or `query` is specified. */
   property?: string;
+}
+
+export interface GetCommentsByIds extends IssueCommentListRequestBean {
+  /** Use [expand](#expansion) to include additional information about comments in the response. This parameter accepts a comma-separated list. Expand options include:
+
+     *  `renderedBody` Returns the comment body rendered in HTML.
+     *  `properties` Returns the comment's properties. */
+  expand?: string;
+}
+
+export interface GetComments {
+  /** The ID or key of the issue. */
+  issueIdOrKey: string;
+  /** The index of the first item to return in a page of results (page offset). */
+  startAt?: number;
+  /** The maximum number of items to return per page. */
+  maxResults?: number;
+  /** [Order](#ordering) the results by a field. Accepts *created* to sort comments by their created date. */
+  orderBy?: string;
+  /** Use [expand](#expansion) to include additional information about comments in the response. This parameter accepts `renderedBody`, which returns the comment body rendered in HTML. */
+  expand?: string;
+}
+
+export interface AddComment extends Comment {
+  /** The ID or key of the issue. */
+  issueIdOrKey: string;
+  /** Use [expand](#expansion) to include additional information about comments in the response. This parameter accepts `renderedBody`, which returns the comment body rendered in HTML. */
+  expand?: string;
+}
+
+export interface GetComment {
+  /** The ID or key of the issue. */
+  issueIdOrKey: string;
+  /** The ID of the comment. */
+  id: string;
+  /** Use [expand](#expansion) to include additional information about comments in the response. This parameter accepts `renderedBody`, which returns the comment body rendered in HTML. */
+  expand?: string;
+}
+
+export interface UpdateComment extends Comment {
+  /** The ID or key of the issue. */
+  issueIdOrKey: string;
+  /** The ID of the comment. */
+  id: string;
+  /** Use [expand](#expansion) to include additional information about comments in the response. This parameter accepts `renderedBody`, which returns the comment body rendered in HTML. */
+  expand?: string;
+}
+
+export interface DeleteComment {
+  /** The ID or key of the issue. */
+  issueIdOrKey: string;
+  /** The ID of the comment. */
+  id: string;
 }
