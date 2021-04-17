@@ -21,47 +21,49 @@ The directions below go as far as getting Octosync up and running on a host mach
 
 The above is also valid for how to get the ID of custom Jira fields, transition IDs and so on. You may find the [useful resources section](#useful-resources), useful.
 
-1. Pull image from registry: `docker pull ghcr.io/marcelovicentegc/octosync:latest`
-2. Create a file with your configuration, based on the following format (same as `.env.example`, except it doens't has the PORT option):
+1.  Pull image from registry: `docker pull ghcr.io/marcelovicentegc/octosync:latest`
+2.  Create a file with your configuration, based on the following format (same as `.env.example`, except it doens't has the PORT option):
 
-   _configuration.file_
+    _configuration.file_
 
-   ```bash
-   NODE_ENV=production
-   GITHUB_TOKEN=
-   GITHUB_ORGANIZATION=
-   GITHUB_REPOSITORY=
-   JIRA_HOST=
-   JIRA_ISSUER_EMAIL=
-   JIRA_PROJECT=
-   JIRA_PROJECT_ID=
-   JIRA_API_TOKEN=
-   JIRA_DONE_TRANSITION_ID=
-   JIRA_DONE_STATUS_NAME=
-   JIRA_CUSTOM_GITHUB_REPOSITORY_FIELD=
-   JIRA_CUSTOM_GITHUB_ISSUE_NUMBER_FIELD=
-   ```
+    ```bash
+    NODE_ENV=production
+    GITHUB_TOKEN=
+    GITHUB_ORGANIZATION=
+    GITHUB_REPOSITORY=
+    JIRA_HOST=
+    JIRA_ISSUER_EMAIL=
+    JIRA_PROJECT=
+    JIRA_PROJECT_ID=
+    JIRA_API_TOKEN=
+    JIRA_DONE_TRANSITION_ID=
+    JIRA_DONE_STATUS_NAME=
+    JIRA_CUSTOM_GITHUB_REPOSITORY_FIELD=
+    JIRA_CUSTOM_GITHUB_ISSUE_NUMBER_FIELD=
+    ```
 
       <details>
-       <summary>Click here to see an example file filled in</summary>
-        ```bash
-        NODE_ENV=production
-        GITHUB_TOKEN=ZmFrZURhdGE
-        GITHUB_ORGANIZATION=marcelovicentegc
-        GITHUB_REPOSITORY=octosync
-        JIRA_HOST=https://marcelovicentegc.atlassian.net
-        JIRA_ISSUER_EMAIL=marcelovicentegc@pm.me
-        JIRA_PROJECT=OCT
-        JIRA_PROJECT_ID=10043
-        JIRA_API_TOKEN=bW9yZUZha2VEYXRh
-        JIRA_DONE_TRANSITION_ID=44
-        JIRA_DONE_STATUS_NAME=Done
-        JIRA_CUSTOM_GITHUB_REPOSITORY_FIELD=10035
-        JIRA_CUSTOM_GITHUB_ISSUE_NUMBER_FIELD=10036
-        ```
-       </details>
+      <summary>Click here to see an example file filled in</summary>
+        
+        
+          NODE_ENV=production
+          GITHUB_TOKEN=ZmFrZURhdGE
+          GITHUB_ORGANIZATION=marcelovicentegc
+          GITHUB_REPOSITORY=octosync
+          JIRA_HOST=https://marcelovicentegc.atlassian.net
+          JIRA_ISSUER_EMAIL=marcelovicentegc@pm.me
+          JIRA_PROJECT=OCT
+          JIRA_PROJECT_ID=10043
+          JIRA_API_TOKEN=bW9yZUZha2VEYXRh
+          JIRA_DONE_TRANSITION_ID=44
+          JIRA_DONE_STATUS_NAME=Done
+          JIRA_CUSTOM_GITHUB_REPOSITORY_FIELD=10035
+          JIRA_CUSTOM_GITHUB_ISSUE_NUMBER_FIELD=10036
+        
+        
+      </details>
 
-3. Start the image: `docker run -d -p <port-of-your-choice>:8000 --env-file configuration.file marcelovicentegc/octosync`
+3.  Start the image: `docker run -d -p <port-of-your-choice>:8000 --env-file configuration.file marcelovicentegc/octosync`
 
 ## Development
 
