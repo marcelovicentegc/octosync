@@ -29,15 +29,15 @@ webhook.post("/jira", async (req, res) => {
       },
     } = reqBody;
 
-    // This means that this issue has already been created,
-    // and this hook must finish executing immediately.
-    if (jiraLabels?.includes(CONTROL_LABELS.FROM_GITHUB)) {
-      res.status(409).end("Conflict");
-      return res;
-    }
-
     switch (webhookEvent) {
       case "jira:issue_created":
+        // This means that this issue has already been created,
+        // and this hook must finish executing immediately.
+        if (jiraLabels?.includes(CONTROL_LABELS.FROM_GITHUB)) {
+          res.status(409).end("Conflict");
+          return res;
+        }
+
         jiraLabels.push(CONTROL_LABELS.FROM_JIRA);
 
         const labels = removeDuplicates(jiraLabels);
