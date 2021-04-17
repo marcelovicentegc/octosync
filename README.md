@@ -8,12 +8,12 @@
 
 ---
 
-| Features                                                          | Status |
-| ----------------------------------------------------------------- | ------ |
-| Sync issue creation                                               | ✔️     |
-| Sync issue closing                                                | ✔️     |
-| Sync events such as comments, PRs linked, attachments added, etc. | 🚧     |
-| Sync issue edition                                                | 🚧     |
+| Features            | Status |
+| ------------------- | ------ |
+| Sync issue creation | ✔️     |
+| Sync issue closing  | ✔️     |
+| Sync comments       | ✔️     |
+| Sync issue edition  | 🚧     |
 
 ## Installation
 
