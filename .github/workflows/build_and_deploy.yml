@@ -11,6 +11,7 @@ env:
 jobs:
   build:
     if: "! contains(toJSON(github.event.commits.*.message), '[skip-build]')"
+    name: Build
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -50,6 +51,7 @@ jobs:
 
   push_to_registry:
     if: "! contains(toJSON(github.event.commits.*.message), '[skip-deploy]')"
+    name: Build and push Octosync's image to GHCR
     runs-on: ubuntu-latest
     needs: build
     steps:
@@ -60,7 +62,7 @@ jobs:
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
       - name: Push image
         run: |
-          IMAGE_ID=ghcr.io/${{ github.repository }}/$IMAGE_NAME
+          IMAGE_ID=ghcr.io/${{ github.repository }}
           # Change all uppercase to lowercase
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
           # Strip git ref prefix from version
