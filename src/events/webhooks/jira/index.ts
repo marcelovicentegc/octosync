@@ -1,6 +1,10 @@
 import { github, jira } from "../../../clients";
 import { useEnv } from "../../../hooks";
-import { CONTROL_LABELS, STRING_AFTER_LAST_SLASH_REGEX } from "../consts";
+import {
+  CONTROL_COMMENT_BODY,
+  CONTROL_LABELS,
+  STRING_AFTER_LAST_SLASH_REGEX,
+} from "../consts";
 import { webhook } from "../router";
 import { removeDuplicates } from "../utils";
 import { IssuePayload } from "./types";
@@ -25,14 +29,15 @@ webhook.post("/jira", async (req, res) => {
       },
     } = reqBody;
 
-    // This means that this issue has already been created,
-    // and this hook must finish executing immediately.
-    if (jiraLabels?.includes(CONTROL_LABELS.FROM_GITHUB)) {
-      return;
-    }
-
     switch (webhookEvent) {
       case "jira:issue_created":
+        // This means that this issue has already been created,
+        // and this hook must finish executing immediately.
+        if (jiraLabels?.includes(CONTROL_LABELS.FROM_GITHUB)) {
+          res.status(409).end("Conflict");
+          return res;
+        }
+
         jiraLabels.push(CONTROL_LABELS.FROM_JIRA);
 
         const labels = removeDuplicates(jiraLabels);
@@ -62,6 +67,22 @@ webhook.post("/jira", async (req, res) => {
           });
         }
       case "comment_created":
+        const commentBody = comment?.body;
+
+        if (!commentBody) {
+          res.status(400).end("Bad Request");
+          return res;
+        }
+
+        // Prevents duplicating a comment that came from Github, on Github
+        if (
+          commentBody.includes(CONTROL_COMMENT_BODY.FROM_GITHUB) ||
+          commentBody.includes(CONTROL_COMMENT_BODY.FROM_JIRA)
+        ) {
+          res.status(409).end("Conflict");
+          return res;
+        }
+
         const jiraIssue = await jira.getIssue(key);
 
         if (!jiraIssue) {
@@ -69,10 +90,12 @@ webhook.post("/jira", async (req, res) => {
           return res;
         }
 
+        const customBody = `${commentBody}\n\n${CONTROL_COMMENT_BODY.FROM_JIRA} by ${comment?.author.displayName}`;
+
         await github.commentIssue({
           issueNumber: jiraIssue.fields[JIRA_CUSTOM_GITHUB_ISSUE_NUMBER_FIELD],
           repository: jiraIssue.fields[JIRA_CUSTOM_GITHUB_REPOSITORY_FIELD],
-          body: comment?.body ?? "",
+          body: customBody,
         });
       default:
         break;

@@ -54,6 +54,26 @@ export class Github {
     }
   }
 
+  public async updateIssueComment(params: {
+    owner: string;
+    repository: string;
+    commentId: number;
+    body: string;
+  }) {
+    const { owner, repository, commentId, body } = params;
+
+    try {
+      return await github.issues.updateComment({
+        owner,
+        repo: repository,
+        comment_id: commentId,
+        body,
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
+
   public async createIssue(params: {
     repository: string;
     title: string;

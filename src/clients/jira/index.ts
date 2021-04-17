@@ -39,9 +39,16 @@ export class Jira {
     email: string,
     description: string,
     labels: string[],
-    issueTypeId: string
+    issueTypeId: string,
+    repository: string,
+    issueNumber: string
   ) {
     try {
+      const {
+        JIRA_CUSTOM_GITHUB_ISSUE_NUMBER_FIELD,
+        JIRA_CUSTOM_GITHUB_REPOSITORY_FIELD,
+      } = useEnv();
+
       let ticket: CreateIssue = {
         fields: {
           project: { id: this.projectId },
@@ -52,6 +59,8 @@ export class Jira {
           assignee: {
             id: undefined,
           },
+          [JIRA_CUSTOM_GITHUB_ISSUE_NUMBER_FIELD]: issueNumber,
+          [JIRA_CUSTOM_GITHUB_REPOSITORY_FIELD]: repository,
         },
       };
 
@@ -87,6 +96,20 @@ export class Jira {
           [JIRA_CUSTOM_GITHUB_ISSUE_NUMBER_FIELD]: issueNumber,
           [JIRA_CUSTOM_GITHUB_REPOSITORY_FIELD]: repository,
         },
+      });
+    } catch (error) {
+      handleAxiosError(error);
+      throw error;
+    }
+  }
+
+  public async commentIssue(params: { issueKey: string; body: string }) {
+    const { issueKey, body } = params;
+
+    try {
+      await jira.issues.addComment({
+        issueIdOrKey: issueKey,
+        body,
       });
     } catch (error) {
       handleAxiosError(error);
