@@ -4,28 +4,16 @@
 <p align="center">
   <img alt="octosync logo" src="./assets/octosync.png" height="300" />
   <h3 align="center">octosync</h3>
-  <p align="center">An open-source solution to keep Github and Jira issues in sync. An alternative to Exalate and Unito.</p>
+  <p align="center">An open-source solution to keep Github and Jira issues synchronized. An alternative to Exalate and Unito.</p>
 </p>
 
 ---
 
-## Table of contents
-
-- [Table of contents](#table-of-contents)
-- [Features](#features)
-- [Installation](#installation)
-  - [Configuration](#configuration)
-  - [Spinning Octosync](#spinning-octosync)
-- [Development](#development)
-
 ## Features
 
-| Features            | Status |
-| ------------------- | ------ |
-| Sync issue creation | ✔️     |
-| Sync issue closing  | ✔️     |
-| Sync comments       | ✔️     |
-| Sync issue edition  | 🚧     |
+- Sync issue creation bi-directionally
+- Sync issue closing bi-directionally
+- Sync issue comments bi-directionally
 
 ## Installation
 
@@ -62,11 +50,14 @@ Once you have gotten the configuration variables needed, it's time to set the we
 | Platform | Webhooks                                                                                                                                        | Endpoint               |
 | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- |
 | Github   | Check the following triggerers: `issues`, `issue comments` and `labels`                                                                         | `<your-domain>/github` |
-| Jira     | Check the following triggerers: Under the `Issue` column, check `created`, `updated` and `deleted`. Under the `Comment` column, check `created` | `<your-domain>/github` |
+| Jira     | Check the following triggerers: Under the `Issue` column, check `created`, `updated` and `deleted`. Under the `Comment` column, check `created` | `<your-domain>/jira`   |
 
 ### Spinning Octosync
 
-1.  Pull image from registry: `docker pull ghcr.io/marcelovicentegc/octosync:latest`
+1.  Pull image from registry:
+    ```bash
+    $ docker pull ghcr.io/marcelovicentegc/octosync:latest
+    ```
 2.  Create a configuration file, based on the following format (same as `.env.example`, except it doens't has the PORT option):
 
     _configuration.file_
@@ -106,7 +97,10 @@ Once you have gotten the configuration variables needed, it's time to set the we
 
       </details>
 
-3.  Start the image: `docker run -d -p <port-of-your-choice>:8000 --env-file configuration.file marcelovicentegc/octosync`
+3.  Start the image:
+    ```bash
+    $ docker run -d -p <port-of-your-choice>:8000 --env-file configuration.file ghcr.io/marcelovicentegc/octosync
+    ```
 4.  You're all set. By this point Octosync should be up and running and all you need to do now is expose it to the world 😉.
 
 ## Development
