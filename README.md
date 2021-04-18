@@ -9,6 +9,17 @@
 
 ---
 
+## Table of contents
+
+- [Table of contents](#table-of-contents)
+- [Features](#features)
+- [Installation](#installation)
+  - [Configuration](#configuration)
+  - [Spinning Octosync](#spinning-octosync)
+- [Development](#development)
+
+## Features
+
 | Features            | Status |
 | ------------------- | ------ |
 | Sync issue creation | ✔️     |
@@ -44,6 +55,9 @@ This information will be used on the following step: [Spinning Octosync](#spinni
 | JIRA_CUSTOM_GITHUB_ISSUE_NUMBER_FIELD | Repeat the above steps 👆.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | -             |
 
 Once you have gotten the configuration variables needed, it's time to set the webhook triggerers on Github, and Jira. I'm assuming you already know where you'll be hosting Octosync and what is its domain.
+
+- To configure your Github project's webhooks, navigate to: `https://github.com/{{ GITHUB_ORGANIZATION }}/{{ GITHUB_REPOSITORY }}/settings/hooks`
+- To configure your Jira's system webhooks, navigate to: `{{ JIRA_HOST }}/plugins/servlet/webhooks`
 
 | Platform | Webhooks                                                                                                                                        | Endpoint               |
 | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- |
