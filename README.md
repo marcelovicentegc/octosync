@@ -65,10 +65,17 @@ The above is also valid for how to get the ID of custom Jira fields, transition 
 
 3.  Start the image: `docker run -d -p <port-of-your-choice>:8000 --env-file configuration.file marcelovicentegc/octosync`
 4.  Set the following webhook triggerers for Github on your project's webhooks settings:
+
+    Octosync waits for Github events on the `github` endpoint. This means you must set Github webhook URL to this: `https://<your-host's-url>/github`
+
     - Issues
     - Issue comments
     - Labels
+
 5.  Set the following webhook triggerers for Jira on your system's webhooks settings:
+
+    Octosync waits for Jira events on the `jira` endpoint. This means you must set Jira webhook URL to this: `https://<your-host's-url>/jira`
+
     - Issue
       - created
       - updated
