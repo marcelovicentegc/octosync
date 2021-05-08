@@ -47,7 +47,7 @@ jobs:
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: lerna publish --from-package
+        run: lerna publish from-package
 
   push_to_registry:
     if: "! contains(toJSON(github.event.commits.*.message), '[skip-deploy]')"
