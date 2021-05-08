@@ -1,0 +1,19 @@
+{
+  "name": "@octosync/utils",
+  "version": "0.0.0",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "description": "Octosync utils",
+  "author": "Marcelo Cardoso <marcelovicentegc@gmail.com>",
+  "license": "ISC",
+  "homepage": "https://github.com/marcelovicentegc/octosync",
+  "keywords": [
+    "octosync"
+  ],
+  "scripts": {
+    "build": "rimraf build && tsc"
+  },
+  "engines": {
+    "node": ">= 10.13.0"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "name": "@octosync/bot",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Keeps Github and Jira issues in sync.",
+  "author": "Marcelo Cardoso <marcelovicentegc@gmail.com>",
+  "license": "ISC",
+  "homepage": "https://github.com/marcelovicentegc/octosync",
+  "keywords": [
+    "probot",
+    "github",
+    "probot-app",
+    "octosync"
+  ],
+  "dependencies": {
+    "@octosync/handlers": "^0.0.0",
+    "@octosync/utils": "^0.0.0"
+  },
+  "scripts": {
+    "build": "rimraf build && tsc",
+    "start": "probot run ./lib/index.js",
+    "test": "jest"
+  },
+  "engines": {
+    "node": ">= 10.13.0"
+  }
+}

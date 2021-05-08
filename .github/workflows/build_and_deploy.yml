@@ -43,11 +43,11 @@ jobs:
         with:
           node-version: 14
       - name: Install dependencies
-        run: npm install
+        run: npm install && npm run build
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx semantic-release
+        run: lerna publish --from-package
 
   push_to_registry:
     if: "! contains(toJSON(github.event.commits.*.message), '[skip-deploy]')"
@@ -55,9 +55,15 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14
+      - name: Install dependencies and build
+        run: npm install && npm run build
       - uses: actions/checkout@v2
       - name: Build image
-        run: docker build . --tag $IMAGE_NAME
+        run: cd packages/webhooks && docker build . --tag $IMAGE_NAME
       - name: Log into registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
       - name: Push image
