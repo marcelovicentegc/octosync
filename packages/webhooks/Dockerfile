@@ -2,14 +2,14 @@ FROM node:14 AS build
 ENV NODE_ENV production
 WORKDIR /app
 ADD package.json yarn.lock /app/
-RUN rm -rf node_modules && yarn install --frozen-lockfile --production=false
+RUN yarn install --frozen-lockfile --production=false
 ADD . /app/
 RUN yarn build
 
 FROM node:14
 WORKDIR /app
-ADD package.json yarn.lock /app/
+ADD /packages/webhooks/package.json yarn.lock /app/
 RUN rm -rf node_modules && yarn install --frozen-lockfile --prod
-COPY --from=build /app/build/ /app/
+COPY --from=build /app/webhooks/packages/build/ /app/
 EXPOSE 8000
 CMD [ "node", "index.js" ]

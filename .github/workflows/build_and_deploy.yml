@@ -48,7 +48,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: lerna publish from-package --yes
+        run: lerna publish from-package --yes --no-verify-access
 
   push_to_registry:
     if: "! contains(toJSON(github.event.commits.*.message), '[skip-deploy]')"
@@ -64,7 +64,7 @@ jobs:
         run: npm install && npm run build
       - uses: actions/checkout@v2
       - name: Build image
-        run: cd packages/webhooks && docker build . --tag $IMAGE_NAME
+        run: docker build . --tag $IMAGE_NAME
       - name: Log into registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
       - name: Push image
