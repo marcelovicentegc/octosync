@@ -3,7 +3,7 @@ ENV NODE_ENV production
 WORKDIR /app
 ADD package.json yarn.lock /app/
 RUN yarn install --frozen-lockfile --production=false
-ADD . /app/
+ADD ./packages/webhooks/ /app/
 RUN yarn build
 
 FROM node:14
