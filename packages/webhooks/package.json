@@ -17,7 +17,8 @@
   "scripts": {
     "build": "rimraf build && tsc",
     "start:watch": "rimraf build && tsc --watch",
-    "start": "yarn build && concurrently \"yarn start:watch\" \"nodemon -r dotenv/config build/index.js\""
+    "start": "yarn build && concurrently \"yarn start:watch\" \"nodemon -r dotenv/config build/index.js\"",
+    "start:prod": "node build/index.js"
   },
   "engines": {
     "node": ">= 10.13.0"
