@@ -14,3 +14,19 @@
 - Sync issue creation bi-directionally
 - Sync issue closing bi-directionally
 - Sync issue comments bi-directionally
+
+## Packages
+
+- bot
+- clients
+- handlers
+- utils
+- webhooks
+
+## Installation
+
+## Contributing
+
+1. Clone this repository: `git clone git@github.com:marcelovicentegc/octosync.git`
+2. Install dependencies and bootstrap packages: `yarn && yarn build`
+3. Navigate to the packages you want to contribute with and take a loot on their READMEs

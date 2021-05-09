@@ -3,8 +3,8 @@
 
 <p align="center">
   <img alt="octosync logo" src="../../assets/octosync.png" height="300" />
-  <h3 align="center">octosync</h3>
-  <p align="center">An open-source solution to keep Github and Jira issues synchronized. An alternative to Exalate and Unito.</p>
+  <h3 align="center">@octosync/webhooks</h3>
+  <p align="center"></p>
 </p>
 
 ---
@@ -105,6 +105,6 @@ Once you have gotten the configuration variables needed, it's time to set the we
 
 ## Development
 
-- Start octosync locally with `yarn start`.
-- On another terminal window, run `yarn start:expose` to link octosync with an actual endpoint to test the webhooks.
-- Edit files and have fun.
+1. Start octosync locally with `yarn start`.
+2. On another terminal window, run `yarn start:expose` to link octosync with an actual endpoint to test the webhooks.
+3. Edit files and have fun.

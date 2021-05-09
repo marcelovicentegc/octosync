@@ -1,6 +1,13 @@
-# octosync
+[![License: ISC](https://img.shields.io/badge/ISC-license-green)](LICENSE)
+[![Build](https://github.com/marcelovicentegc/octosync/actions/workflows/build.yml/badge.svg)](https://github.com/marcelovicentegc/octosync/actions/workflows/build.yml)
 
-> A GitHub App built with [Probot](https://github.com/probot/probot) that keeps Github and Jira issues in sync.
+<p align="center">
+  <img alt="octosync logo" src="../../assets/octosync.png" height="300" />
+  <h3 align="center">@octosync/bot</h3>
+  <p align="center">Octosync Bot keeps Github and Jira issues in sync.</p>
+</p>
+
+---
 
 ## Setup
 
@@ -16,15 +23,15 @@ npm start
 
 ```sh
 # 1. Build container
-docker build -t octosync .
+docker build -t octosync-bot .
 
 # 2. Start container
-docker run -e APP_ID=<app-id> -e PRIVATE_KEY=<pem-value> octosync
+docker run -e APP_ID=<app-id> -e PRIVATE_KEY=<pem-value> octosync-bot
 ```
 
 ## Contributing
 
-If you have suggestions for how octosync could be improved, or want to report a bug, open an issue! We'd love all and any contributions.
+If you have suggestions for how `@octosync/bot` could be improved, or want to report a bug, open an issue! We'd love all and any contributions.
 
 For more, check out the [Contributing Guide](CONTRIBUTING.md).
 
