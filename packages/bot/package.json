@@ -13,8 +13,8 @@
     "octosync"
   ],
   "dependencies": {
-    "@octosync/handlers": "*",
-    "@octosync/utils": "*"
+    "@octosync/handlers": "^0.0.0",
+    "@octosync/utils": "^0.0.0"
   },
   "scripts": {
     "build": "rimraf build && tsc",

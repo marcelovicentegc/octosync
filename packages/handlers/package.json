@@ -11,8 +11,8 @@
     "octosync"
   ],
   "dependencies": {
-    "@octosync/clients": "*",
-    "@octosync/utils": "*"
+    "@octosync/clients": "^0.0.0",
+    "@octosync/utils": "^0.0.0"
   },
   "scripts": {
     "build": "rimraf build && tsc",
