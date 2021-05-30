@@ -1,6 +1,6 @@
 {
   "name": "@octosync/webhooks",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": true,
   "description": "Keeps Github and Jira issues in sync.",
   "author": "Marcelo Cardoso <marcelovicentegc@gmail.com>",
@@ -10,9 +10,9 @@
     "octosync"
   ],
   "dependencies": {
-    "@octosync/utils": "^0.0.0",
-    "@octosync/handlers": "^0.0.0",
-    "@octosync/clients": "^0.0.0"
+    "@octosync/clients": "^0.1.0",
+    "@octosync/handlers": "^0.1.0",
+    "@octosync/utils": "^0.1.0"
   },
   "scripts": {
     "build": "rimraf build && tsc",
