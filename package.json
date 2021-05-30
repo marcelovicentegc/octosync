@@ -1,6 +1,5 @@
 {
   "name": "octosync",
-  "version": "0.0.0-development",
   "main": "index.js",
   "author": "Marcelo Cardoso <marcelovicentegc@gmail.com>",
   "license": "MIT",
