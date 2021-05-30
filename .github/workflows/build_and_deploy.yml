@@ -48,7 +48,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: lerna version --yes && lerna publish from-package --yes --no-verify-access
+        run: lerna publish from-package --yes --no-verify-access
 
   push_to_registry:
     if: "! contains(toJSON(github.event.commits.*.message), '[skip-deploy]')"
