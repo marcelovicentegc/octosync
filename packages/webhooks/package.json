@@ -10,9 +10,9 @@
     "octosync"
   ],
   "dependencies": {
-    "@octosync/utils": "^0.0.0",
-    "@octosync/handlers": "^0.0.0",
-    "@octosync/clients": "^0.0.0"
+    "@octosync/utils": "*",
+    "@octosync/handlers": "*",
+    "@octosync/clients": "*"
   },
   "scripts": {
     "build": "rimraf build && tsc",

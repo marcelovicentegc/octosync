@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import { useEnv } from "@octosync/clients";
+import { useEnv } from "@octosync/utils";
 import { github } from "./github";
 import { jira } from "./jira";
 import { lookup } from "dns";

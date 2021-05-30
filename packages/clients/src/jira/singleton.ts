@@ -1,4 +1,4 @@
-import { useEnv } from "../hooks";
+import { useEnv } from "@octosync/utils";
 import { Jira } from "./jirakit";
 
 let jiraInstance: Jira | null = null;

@@ -1,5 +1,5 @@
 import { Octokit } from "@octokit/rest";
-import { useEnv } from "../hooks/useEnv";
+import { useEnv } from "@octosync/utils";
 
 let githubInstance: Octokit | null = null;
 

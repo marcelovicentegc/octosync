@@ -1,4 +1,5 @@
-import { github, jira, useEnv } from "@octosync/clients";
+import { github, jira } from "@octosync/clients";
+import { useEnv } from "@octosync/utils";
 import {
   removeDuplicates,
   CONTROL_COMMENT_BODY,

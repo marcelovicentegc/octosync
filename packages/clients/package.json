@@ -11,7 +11,7 @@
     "octosync"
   ],
   "dependencies": {
-    "@octosync/utils": "^0.0.0"
+    "@octosync/utils": "*"
   },
   "devDependencies": {
     "@types/node": "^14.14.37"

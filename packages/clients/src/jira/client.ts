@@ -1,7 +1,6 @@
-import { handleAxiosError } from "@octosync/utils";
+import { handleAxiosError, useEnv } from "@octosync/utils";
 import { CreateIssue, User } from "./types";
 import { jira } from "./singleton";
-import { useEnv } from "../hooks";
 
 export class Jira {
   private host: string;

@@ -1,10 +1,9 @@
-import { removeDuplicates, CONTROL_LABELS } from "@octosync/utils";
+import { removeDuplicates, CONTROL_LABELS, useEnv } from "@octosync/utils";
 import {
   handleClosedIssue,
   handleIssueCommentCreation,
   handleOpenedIssue,
 } from "@octosync/handlers";
-import { useEnv } from "@octosync/clients";
 import { webhook } from "../router";
 import { IssuePayload } from "./types";
 
