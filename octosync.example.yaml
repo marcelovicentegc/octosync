@@ -1,0 +1,5 @@
+# The direction option available values are: bidirectional, github-to-jira or jira-to-github
+direction:
+  comments: bidirectional
+  issue_creation: bidirectional
+  issue_closing: bidirectional

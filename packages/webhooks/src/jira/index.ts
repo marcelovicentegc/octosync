@@ -31,6 +31,16 @@ webhook.post("/jira", async (req, res) => {
 
     switch (webhookEvent) {
       case "jira:issue_created":
+        const {
+          PUBLIC_CONFIG: {
+            direction: { issue_creation },
+          },
+        } = useEnv();
+
+        if (issue_creation === "github-to-jira") {
+          return;
+        }
+
         // This means that this issue has already been created,
         // and this hook must finish executing immediately.
         if (jiraLabels?.includes(CONTROL_LABELS.FROM_GITHUB)) {
@@ -57,6 +67,16 @@ webhook.post("/jira", async (req, res) => {
           issueNumber: issue.number.toString(),
         });
       case "jira:issue_updated":
+        const {
+          PUBLIC_CONFIG: {
+            direction: { issue_closing },
+          },
+        } = useEnv();
+
+        if (issue_closing === "github-to-jira") {
+          return;
+        }
+
         if (status.name === JIRA_DONE_STATUS_NAME) {
           await github.updateIssue({
             issueNumber:
@@ -67,6 +87,16 @@ webhook.post("/jira", async (req, res) => {
           });
         }
       case "comment_created":
+        const {
+          PUBLIC_CONFIG: {
+            direction: { comments },
+          },
+        } = useEnv();
+
+        if (comments === "github-to-jira") {
+          return;
+        }
+
         const commentBody = comment?.body;
 
         if (!commentBody) {
