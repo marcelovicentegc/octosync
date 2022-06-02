@@ -1,3 +1,5 @@
+import { getPublicConfig } from "../publicConf";
+
 export function useEnv() {
   const {
     NODE_ENV = "development",
@@ -20,6 +22,10 @@ export function useEnv() {
     JIRA_CUSTOM_GITHUB_ISSUE_NUMBER_FIELD = "",
   } = process.env;
 
+  console.log({ NODE_ENV });
+
+  const PUBLIC_CONFIG = getPublicConfig(NODE_ENV === "development");
+
   const CUSTOM_GITHUB_REPO_FIELD = `customfield_${JIRA_CUSTOM_GITHUB_REPOSITORY_FIELD}`;
   const CUSTOM_ISSUE_NUMBER_FIELD = `customfield_${JIRA_CUSTOM_GITHUB_ISSUE_NUMBER_FIELD}`;
 
@@ -38,5 +44,6 @@ export function useEnv() {
     JIRA_DONE_STATUS_NAME,
     JIRA_CUSTOM_GITHUB_REPOSITORY_FIELD: CUSTOM_GITHUB_REPO_FIELD,
     JIRA_CUSTOM_GITHUB_ISSUE_NUMBER_FIELD: CUSTOM_ISSUE_NUMBER_FIELD,
+    PUBLIC_CONFIG,
   };
 }

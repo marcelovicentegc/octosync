@@ -19,5 +19,8 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "8f3c3a731c82e6f65dae2bc3f9eb1e752eac6dc8"
+  "gitHead": "8f3c3a731c82e6f65dae2bc3f9eb1e752eac6dc8",
+  "dependencies": {
+    "js-yaml": "^4.1.0"
+  }
 }

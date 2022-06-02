@@ -41,6 +41,16 @@ webhook.post("/github", async (req, res) => {
 
     switch (action) {
       case "opened":
+        const {
+          PUBLIC_CONFIG: {
+            direction: { issue_creation },
+          },
+        } = useEnv();
+
+        if (issue_creation === "jira-to-github") {
+          return;
+        }
+
         await handleOpenedIssue({
           clients: {
             github: {
@@ -57,6 +67,16 @@ webhook.post("/github", async (req, res) => {
         });
         break;
       case "closed":
+        const {
+          PUBLIC_CONFIG: {
+            direction: { issue_closing },
+          },
+        } = useEnv();
+
+        if (issue_closing === "jira-to-github") {
+          return;
+        }
+
         const success = await handleClosedIssue({ title });
 
         if (!success) {
@@ -66,6 +86,16 @@ webhook.post("/github", async (req, res) => {
 
         break;
       case "created":
+        const {
+          PUBLIC_CONFIG: {
+            direction: { comments },
+          },
+        } = useEnv();
+
+        if (comments === "jira-to-github") {
+          return;
+        }
+
         const result = await handleIssueCommentCreation({
           clients: {
             github: {
